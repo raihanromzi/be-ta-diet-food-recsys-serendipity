@@ -1,0 +1,4 @@
+
+data/preprocessed_recipes.csv
+models/tfidf_matrix.pkl
+models/tfidf_vectorizer.pkl
