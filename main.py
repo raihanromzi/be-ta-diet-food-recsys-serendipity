@@ -8,18 +8,9 @@ from content_based import calculate_similarity, filter_similarity, cluster_recom
 
 app = FastAPI()
 
-origins = [
-    "http://localhost",
-    "http://localhost:8080",
-    "http://localhost:5173",
-    "http://localhost:3000",
-    "https://fe-ta-diet-food-recsys-serendipity.vercel.app",
-    "0.0.0.0",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -63,6 +54,8 @@ async def index(
         foods_similarity_df = calculate_similarity(df, user_favorites)
         high_low_similarity_df = filter_similarity(foods_similarity_df, df, top_n_high, top_n_low)
         diverse_recommendations_df = cluster_recommendations(high_low_similarity_df, user_favorites_length)
+
+        print(foods_similarity_df.info())
 
         shuffled_recommendations = diverse_recommendations_df.sample(frac=1).reset_index(drop=True)
 

@@ -37,7 +37,7 @@ def filter_similarity(similarity_df, df, top_n_high, top_n_low):
         high_similarity_candidates.append(high_sim_recipes)
 
         # Get top n low similarity indices
-        non_zero_indices = np.where(similarities > 0)[0]
+        non_zero_indices = np.where((similarities >= 0) & (similarities <= 0.3))[0]
         low_similarity_indices = non_zero_indices[similarities.iloc[non_zero_indices].argsort()[:top_n_low]]
         low_sim_recipes = df.iloc[low_similarity_indices].copy()
         low_sim_recipes['CosineSimilarity'] = similarities.iloc[low_similarity_indices].tolist()
